@@ -5,7 +5,7 @@ import MLP.models.Layer
 
 import java.util.stream.IntStream
 
-class MultiLayerPerception(layers: IntArray, protected var fLearningRate: Double, protected var fFunctionActivation: FunctionActivation) {
+class MultiLayerPerceptron(layers: IntArray, protected var fLearningRate: Double, protected var fFunctionActivation: FunctionActivation) {
     protected var fLayers: Array<Layer?>
 
 
