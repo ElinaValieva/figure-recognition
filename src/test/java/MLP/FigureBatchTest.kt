@@ -4,8 +4,8 @@ import MLP.funtionsActivation.SigmoidActivation
 import MLP.util.FileUtil
 import MLP.util.ImageRecognitionUtil
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
-
 import java.util.stream.IntStream
 
 /**
@@ -15,69 +15,27 @@ import java.util.stream.IntStream
  * 2 - circle
  * 3 - square
  */
+class FigureBatchTest {
 
-class FigureTest {
+    private var resultsPatterns: IntArray? = null
+    private var resultsTests: IntArray? = null
+    private val TEST_SIZE = 6
 
-    /**
-     * expected: triangle = 1
-     */
-    @Test
-    fun recognizeTriangle() {
-        val inputs = ImageRecognitionUtil.loadImage(FileUtil.getFilesPath("img/tests/3.png")!!, SIZE_IMAGE_PIXELS_WIDTH, SIZE_IMAGE_PIXELS_HEIGHT)
-        val result = TestPrecision(BATCH_SIZE, inputs)
-        Assert.assertTrue(result == 1.0)
+    @Before
+    fun init() {
+        resultsPatterns = intArrayOf(2, 2, 1, 1, 2, 2)
+        resultsTests = IntArray(TEST_SIZE)
     }
 
-    /**
-     * expected: circle/square = 3/2
-     * complicated figure
-     */
     @Test
-    fun recognizeSquare() {
-        val inputs = ImageRecognitionUtil.loadImage(FileUtil.getFilesPath("img/tests/2.png")!!, SIZE_IMAGE_PIXELS_WIDTH, SIZE_IMAGE_PIXELS_HEIGHT)
-        val result = TestPrecision(BATCH_SIZE, inputs)
-        Assert.assertTrue(result == 3.0 || result == 2.0)
-    }
-
-    /**
-     * expected: circle = 2
-     */
-    @Test
-    fun recognizeCircle() {
-        val inputs = ImageRecognitionUtil.loadImage(FileUtil.getFilesPath("img/tests/1.png")!!, SIZE_IMAGE_PIXELS_WIDTH, SIZE_IMAGE_PIXELS_HEIGHT)
-        val result = TestPrecision(BATCH_SIZE, inputs)
-        Assert.assertTrue(result == 2.0)
-    }
-
-    /**
-     * expected: triangle = 1
-     */
-    @Test
-    fun recognizeTriangle_2() {
-        val inputs = ImageRecognitionUtil.loadImage(FileUtil.getFilesPath("img/tests/4.png")!!, SIZE_IMAGE_PIXELS_WIDTH, SIZE_IMAGE_PIXELS_HEIGHT)
-        val result = TestPrecision(BATCH_SIZE, inputs)
-        Assert.assertTrue(result == 1.0)
-    }
-
-    /**
-     * expected: square/circle = 2/3
-     * complicated figure
-     */
-    @Test
-    fun recognizeSquare_2() {
-        val inputs = ImageRecognitionUtil.loadImage(FileUtil.getFilesPath("img/tests/6.png")!!, SIZE_IMAGE_PIXELS_WIDTH, SIZE_IMAGE_PIXELS_HEIGHT)
-        val result = TestPrecision(BATCH_SIZE, inputs)
-        Assert.assertTrue(result == 2.0 || result == 3.0)
-    }
-
-    /**
-     * expected: circle = 2
-     */
-    @Test
-    fun recognizeCircle_2() {
-        val inputs = ImageRecognitionUtil.loadImage(FileUtil.getFilesPath("img/tests/5.png")!!, SIZE_IMAGE_PIXELS_WIDTH, SIZE_IMAGE_PIXELS_HEIGHT)
-        val result = TestPrecision(BATCH_SIZE, inputs)
-        Assert.assertTrue(result == 2.0)
+    fun figureBatchTest() {
+        IntStream.range(0, TEST_SIZE)
+                .forEach { i ->
+                    val inputs = ImageRecognitionUtil.loadImage(FileUtil.getFilesPath("img/tests/" + (i + 1) + ".png")!!, FigureBatchTest.SIZE_IMAGE_PIXELS_WIDTH, FigureBatchTest.SIZE_IMAGE_PIXELS_HEIGHT)
+                    val result = FigureTest.TestPrecision(FigureBatchTest.BATCH_SIZE, inputs)
+                    resultsTests!![i] = result.toInt()
+                }
+        Assert.assertArrayEquals(resultsPatterns, resultsTests)
     }
 
     companion object {
@@ -125,5 +83,4 @@ class FigureTest {
             return (max[0] + 1).toDouble()
         }
     }
-
 }
