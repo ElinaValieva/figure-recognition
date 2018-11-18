@@ -31,6 +31,27 @@ class FigureTest {
         Assert.assertTrue(result == 2.0)
     }
 
+    @Test
+    fun recognizeTriangle_2() {
+        val inputs = ImageRecognitionUtil.loadImage(FileUtil.getFilesPath("img/tests/4.png")!!, SIZE_IMAGE_PIXELS_WIDTH, SIZE_IMAGE_PIXELS_HEIGHT)
+        val result = TestPrecision(BATCH_SIZE, inputs)
+        Assert.assertTrue(result == 1.0)
+    }
+
+    @Test
+    fun recognizeSquare_2() {
+        val inputs = ImageRecognitionUtil.loadImage(FileUtil.getFilesPath("img/tests/6.png")!!, SIZE_IMAGE_PIXELS_WIDTH, SIZE_IMAGE_PIXELS_HEIGHT)
+        val result = TestPrecision(BATCH_SIZE, inputs)
+        Assert.assertTrue(result == 2.0 || result == 3.0)
+    }
+
+    @Test
+    fun recognizeCircle_2() {
+        val inputs = ImageRecognitionUtil.loadImage(FileUtil.getFilesPath("img/tests/5.png")!!, SIZE_IMAGE_PIXELS_WIDTH, SIZE_IMAGE_PIXELS_HEIGHT)
+        val result = TestPrecision(BATCH_SIZE, inputs)
+        Assert.assertTrue(result == 2.0)
+    }
+
     companion object {
 
         private val BATCH_SIZE = 10000
